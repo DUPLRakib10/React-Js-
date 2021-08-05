@@ -1,22 +1,20 @@
 import React, { Component } from 'react';
-
-
-
-class Book extends Component {
-    constructor(props) {
-        super(props)
-    }
-    render() {
-        return (
-            <div>
-                <h3>Book: {this.props.bookName}</h3>
-                <h4>Writer: {this.props.writer}</h4>
-            </div>
-
-        );
-    }
-
+import './Book.css'
+const Book = props => {
+    return (
+        <div className="Book">
+            <h3 onClick={props.change}>
+                Book :{props.bookName}</h3>
+            <h4>Writer:{props.writer}</h4>
+            <input type="text" onChange={props.inputName} />
+        </div>
+    )
 }
+
+
+
+
+
 
 
 export default Book;
