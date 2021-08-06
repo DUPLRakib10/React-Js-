@@ -9,25 +9,29 @@ class App extends Component {
       { bookName: "Rakib3", writer: "Hasan3" },
       { bookName: "Rakib4", writer: "Hasan4" },
     ],
-    otherProp: "I am other Prop"
+    showBooks: true
   }
-  changeBookState = (newBookName) => {
-    this.setState({
-      books: [
-        { bookName: newBookName, writer: "Hasan" },
-        { bookName: "Rakib2", writer: "Hasan2" },
-        { bookName: "Rakib3", writer: "Hasan3" },
-      ]
-    });
+
+  changeWithInputState = (event, index) => {
+    const book = {
+      ...this.state.books[index]
+    }
+    book.writer = event.target.value;
+    const books = [...this.state.books];
+    books[index] = book;
+
+    this.setState({ books: books })
   }
-  changeWithInputState = (event) => {
+
+  deleteBookState = index => {
+    const books = this.state.books;
+    books.splice(index, 1);
     this.setState({
-      books: [
-        { bookName: event.target.value, writer: "Hasan" },
-        { bookName: "Rakib2", writer: "Hasan2" },
-        { bookName: "Rakib3", writer: "Hasan3" },
-      ]
+      books: books
     });
+  };
+  toggleBooks = () => {
+    this.setState({ showBooks: !this.state.showBooks });
   }
 
   render() {
@@ -39,18 +43,24 @@ class App extends Component {
       color: "white"
     }
 
-    const books = this.state.books.map(book => {
+    const books = this.state.books.map((book, index) => {
       return (
-        <Book bookName={book.bookName} writer={book.writer} />
+        <Book bookName={book.bookName}
+          writer={book.writer}
+          delete={() => this.deleteBookState(index)}
+          inputName={(event) => this.changeWithInputState(event, index)
+
+          }
+        />
+
 
       );
     });
     return (
       <div className="App">
         <h1 style={styl}> Book List2</h1>
-        <button onClick={this.changeBookState.bind(this, "98")}> Change State</button>
-        <input type="text" onChange={this.changeWithInputState} />
-        {books}
+        <button onClick={this.toggleBooks}> Toggle Book</button>
+        {this.state.showBooks ? books : null}
 
       </div>
     );
